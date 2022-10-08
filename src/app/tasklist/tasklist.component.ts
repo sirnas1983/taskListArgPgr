@@ -24,13 +24,15 @@ export class TasklistComponent implements OnInit {
   constructor(private getTasks : GetTaskListService) { }
 
   ngOnInit(): void {
+    let hoy = new Date();
     this.getTasks.getTaskListService().subscribe(taskList => {
        this.taskList = taskList.sort(
         (objA : Task, objB : Task) =>  new Date(objA.date).getTime() - new Date(objB.date).getTime(),
       );
       this.taskList = this.taskList.filter(task => new Date(task.date).getTime() >= new Date().getTime() )
       console.log(taskList);
-  })
+      alert(`Faltan ${new Date(this.taskList[0].date).getDate() - hoy.getDate()} dias para su proximo compromiso`)
+  });
   }
 
   showFormMethod(){
