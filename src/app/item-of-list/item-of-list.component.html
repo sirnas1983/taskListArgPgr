@@ -1,0 +1,18 @@
+<div    
+    class="myCard"
+    [class.false]="!task.important"
+    [class.overdue]="overdue" 
+    (click)="toggleImportant()"
+>       
+        <div>
+            <h5><b>{{task.name}}</b></h5>
+            <h6>{{task.date | date:"dd/MM/YYYY"}}</h6>
+            <h6>{{task.date | date:"hh:mm"}}</h6>
+        </div>
+        <button (click)="deleteTask($event, task)">
+            <fa-icon 
+                icon="trash" 
+                class="fa-2xl">
+            </fa-icon>
+        </button>
+</div>

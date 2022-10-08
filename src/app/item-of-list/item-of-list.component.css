@@ -1,0 +1,40 @@
+.myCard {
+    border: solid darkgray 3px;
+    border-radius: .5rem;
+    padding: 5 px;
+    padding-left: 5px;
+    width: 80%;
+    border-left: solid rgb(11, 119, 33) 12px;
+    margin-bottom: 4px;
+    cursor:pointer;
+    display:flex;
+    justify-content: space-between;
+}
+
+.false {
+    border-left : solid darkgray 12px;
+}
+
+.overdue {
+    border-left: solid rgb(255, 0, 0) 9px;
+    color: grey;
+    background-color: black;
+}
+
+button {
+    border: none;
+    border-left: solid 1px black;
+    border-radius: 0 .5rem .5rem 0;
+    background: none;
+    cursor:pointer;
+}
+
+button:hover {
+    border: none;
+    background: lightblue;
+    cursor:pointer;
+    box-shadow: 2px lightgreen;
+}
+
+
+

@@ -1,0 +1,28 @@
+<div class="container">
+<header>
+    <h2>Mi lista de tareas</h2>
+    <button class="btn btn-primary" [ngClass]="{'disabled': showForm}" (click)="showFormMethod()">Agregar Tarea</button>
+</header>
+
+    <div *ngIf="showForm">
+        <label for="name" class="form-label">Nombre:</label>
+        <input type="text" #name placeholder="Ingrese aqui el nombre de la tarea" class="form-control" id="name">
+        <label for="date" class="form-label">Fecha:</label>
+        <input type="date" #date placeholder="dd/mm/yyyy" class="form-control" id="date" required>
+        <label for="time" class="form-label">Hora:</label>
+        <input type="time" #time placeholder="08:00" class="form-control" id="time">
+        <label class="form-check-label" for="important">Importante</label>
+        <br>
+        <input class="form-check-input" type="checkbox" id="important" name="important" #important>
+        <br>
+        <button class="btn btn-primary" (click)="addTask(name.value, date.value, time.value, important.checked)">Agregar</button>
+        <button class="btn btn-secondary" (click)="showFormMethod()">Cancelar</button>
+    </div>
+<hr>
+
+<app-list-of-tasks 
+    [taskList]="taskList"
+    (parentEventEmitter)="deleteTask($event)">
+</app-list-of-tasks>
+</div>
+

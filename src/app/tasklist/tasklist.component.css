@@ -1,0 +1,19 @@
+.container {
+    max-width: 500px;
+    border: solid 4px darkgrey;
+    border-radius: 20px;
+    align-content: center;
+
+}
+
+header {
+    justify-content: space-between;
+    display: flex;
+    align-content: center;
+    margin: 20px;
+}
+
+
+hr {
+    border-top: solid darkgrey 4px;
+}
