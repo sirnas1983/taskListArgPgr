@@ -1,4 +1,5 @@
 .myCard {
+    background-color: antiquewhite;
     border: solid darkgray 3px;
     border-radius: .5rem;
     padding: 5 px;
@@ -19,6 +20,14 @@
     border-left: solid rgb(255, 0, 0) 9px;
     color: grey;
     background-color: black;
+}
+
+.overdue .fa-2xl{
+    color:aliceblue;
+}
+
+.overdue button{
+    border-left: solid 1px aliceblue;
 }
 
 button {

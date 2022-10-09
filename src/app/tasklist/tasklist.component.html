@@ -8,7 +8,7 @@
         <label for="name" class="form-label">Nombre:</label>
         <input type="text" #name placeholder="Ingrese aqui el nombre de la tarea" class="form-control" id="name">
         <label for="date" class="form-label">Fecha:</label>
-        <input type="date" #date placeholder="dd/mm/yyyy" class="form-control" id="date" required>
+        <input type="datetime-local" #date placeholder="dd/mm/yyyy" class="form-control" id="date" required>
         <label for="time" class="form-label">Hora:</label>
         <input type="time" #time placeholder="08:00" class="form-control" id="time">
         <label class="form-check-label" for="important">Importante</label>
@@ -18,7 +18,8 @@
         <button class="btn btn-primary" (click)="addTask(name.value, date.value, time.value, important.checked)">Agregar</button>
         <button class="btn btn-secondary" (click)="showFormMethod()">Cancelar</button>
     </div>
-<hr>
+    <p>{{daysNextTask}}</p>
+    <hr>
 
 <app-list-of-tasks 
     [taskList]="taskList"

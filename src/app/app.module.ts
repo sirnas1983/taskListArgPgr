@@ -8,7 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { GetTaskListService } from './services/get-task-list.service';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 @NgModule({
   declarations: [
@@ -21,7 +22,9 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
   imports: [
     BrowserModule,
     HttpClientModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatSnackBarModule,
+    BrowserAnimationsModule
   ],
   providers: [GetTaskListService],
   bootstrap: [AppComponent]
