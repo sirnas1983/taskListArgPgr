@@ -22,12 +22,14 @@ export class TasklistComponent implements OnInit {
   showForm : boolean = false;
   taskList : Task[] = []
   daysNextTask : string = '';
+  showOverdue : boolean = true;
+  originalTaskList : Task[] = [];
 
   constructor(private getTasks : GetTaskListService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.getTasks.getTaskListService().subscribe(taskList => {
-    this.taskList = this.filterAndSortTaskList(taskList)
+    this.taskList = this.sortTaskList(taskList);
     this.notificacion();
   });
   }
@@ -35,7 +37,7 @@ export class TasklistComponent implements OnInit {
   notificacion(){
     if (this.taskList.length>0) {
     let hoy = new Date();
-    let dias = Math.floor((new Date(this.taskList[0].date).getTime() - hoy.getTime()) / 1000 / 60 / 60 / 24);
+    let dias = Math.floor((new Date(this.filterTaskList()[0].date).getTime() - hoy.getTime()) / 1000 / 60 / 60 / 24);
     if (dias > 0){
       this.openSnackBar(`Faltan ${dias} dias para su siguiente tarea!`);
     } else if (this.taskList.length !== 0) {
@@ -46,16 +48,25 @@ export class TasklistComponent implements OnInit {
   }
 }
 
+  toggle(event: Event) {
+      let listOfTasks = document.querySelectorAll("app-item-of-list .overdue");
+      listOfTasks.forEach(task => {task.classList.toggle("display")});
+  }
+
   openSnackBar(message : string){
     this.snackBar.open(message,'',
     {duration:3000});
   }
 
-  filterAndSortTaskList(taskList : Task[]) {
+  sortTaskList(taskList : Task[]) {
     return taskList.sort(
       (taskA : Task, taskB : Task) =>  new Date(taskA.date).getTime() - new Date(taskB.date).getTime(),
     );
-    /*return list.filter(task => new Date(task.date).getTime() > new Date().getTime())*/
+  }
+
+  filterTaskList(){
+    let filteredTaskList = this.taskList.filter(task => new Date(task.date).getTime() > new Date().getTime());
+    return filteredTaskList;
   }
 
   showFormMethod(){
@@ -73,7 +84,7 @@ export class TasklistComponent implements OnInit {
     this.task.date = (new Date(date).toLocaleString('es-AR'));
     console.log(this.task.date);
     this.taskList.push(task);
-    this.taskList = this.filterAndSortTaskList(this.taskList);
+    this.taskList = this.sortTaskList(this.taskList);
     this.notificacion();
     this.showFormMethod();
   } else {
@@ -82,7 +93,6 @@ export class TasklistComponent implements OnInit {
   }
 
   deleteTask(task:Task){
-    console.log(task)
     this.taskList = this.taskList.filter(item => item !== task);
     this.notificacion();
     }

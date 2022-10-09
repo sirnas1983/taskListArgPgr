@@ -18,6 +18,10 @@
         <button class="btn btn-primary" (click)="addTask(name.value, date.value, time.value, important.checked)">Agregar</button>
         <button class="btn btn-secondary" (click)="showFormMethod()">Cancelar</button>
     </div>
+    <br>
+
+    <input class="form-check-input" type="checkbox" id="overdueTasks" name="overdueTasks" #overdueTasks (change)="toggle($event)">
+    <span class="form-check-label ml-2" for="overdueTasks">  Ocultar tareas vencidas</span>
     <p>{{daysNextTask}}</p>
     <hr>
 
