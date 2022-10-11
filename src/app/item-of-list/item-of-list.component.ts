@@ -7,21 +7,23 @@ import { Task } from '../interface';
   styleUrls: ['./item-of-list.component.css']
 })
 export class ItemOfListComponent implements OnInit {
-@Input() task : Task = {name:'',date:'',important:false};
+@Input() task : Task = {id:0, name:'',date:'',important:false};
 @Input() taskList:Task[] = [];
-@Output() newChildEventEmitter = new EventEmitter<Task>()
+@Output() deleteTaskEmitter = new EventEmitter<Task>()
+
 overdue :boolean=false;
   
 constructor() { }
+
 deleteTask(event:Event, task:Task){
   event.stopPropagation();
-  this.newChildEventEmitter.emit(task);
+  this.deleteTaskEmitter.emit(task);
 }
 
-toggleImportant(){
-  console.log("prueba")
-  this.task.important=!this.task.important;
-}
+  toggleImportant(){
+    this.task.important=!this.task.important;
+  }
+
   ngOnInit(): void {
     if (new Date(this.task.date) < new Date()) {
       this.overdue = true;

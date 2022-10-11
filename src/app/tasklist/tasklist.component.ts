@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { GetTaskListService } from '../services/get-task-list.service';
 import { Task } from '../interface';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { PutTaskListServiceService } from '../services/put-task-list-service.service';
+import { DeleteTaskService } from '../services/delete-task.service';
 
 @Component({
   selector: 'app-tasklist',
@@ -11,10 +13,12 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class TasklistComponent implements OnInit {
 
   task : Task = {
+    id:0,
     name:'',
     date:'',
     important : false
   }
+  id : number = 0;
   name : string = '';
   date : string = '';
   time : string = '';
@@ -25,11 +29,17 @@ export class TasklistComponent implements OnInit {
   showOverdue : boolean = true;
   originalTaskList : Task[] = [];
 
-  constructor(private getTasks : GetTaskListService, private snackBar: MatSnackBar) { }
+  constructor(private getTasks : GetTaskListService, 
+    private snackBar: MatSnackBar, 
+    private putTasks : PutTaskListServiceService,
+    private deleteTaskService : DeleteTaskService) { 
+
+    }
 
   ngOnInit(): void {
     this.getTasks.getTaskListService().subscribe(taskList => {
     this.taskList = this.sortTaskList(taskList);
+    console.log(this.taskList);
     this.notificacion();
   });
   }
@@ -49,7 +59,7 @@ export class TasklistComponent implements OnInit {
 }
 
   toggle(event: Event) {
-      let listOfTasks = document.querySelectorAll("app-item-of-list .overdue");
+      const listOfTasks = document.querySelectorAll("app-item-of-list .overdue");
       listOfTasks.forEach(task => {task.classList.toggle("display")});
   }
 
@@ -73,27 +83,39 @@ export class TasklistComponent implements OnInit {
     this.showForm = !this.showForm
   }
 
-  addTask(name : string, date: string, time: string, important: boolean){
+  addTask(name : string, date: string, important: boolean){
     let task : Task = {
+      id : this.taskList.length + 1,
       name: name,
       date: date,
       important
-    }
-    console.log(task.date);
+    };
+    console.log(task);
     if (task.date !== ''){
-    this.task.date = (new Date(date).toLocaleString('es-AR'));
-    console.log(this.task.date);
-    this.taskList.push(task);
-    this.taskList = this.sortTaskList(this.taskList);
-    this.notificacion();
-    this.showFormMethod();
-  } else {
-    this.openSnackBar("Debe ingresar una fecha")
-  }
+        this.task.date = (new Date(date).toLocaleString('es-AR'));
+        this.taskList.push(task);
+        this.taskList = this.sortTaskList(this.taskList);
+        this.notificacion();
+        this.showFormMethod();
+        this.putTasks.putTaskListService(JSON.parse(JSON.stringify(task))).subscribe(response => {
+          console.log(response)
+        })
+    } else {
+        this.openSnackBar("Debe ingresar una fecha")
+    }
   }
 
   deleteTask(task:Task){
     this.taskList = this.taskList.filter(item => item !== task);
-    this.notificacion();
-    }
+    this.deleteTaskService.deleteTaskListService(task).subscribe(response => {
+    if (!response.ok){
+      console.log(response);
+      this.notificacion()} 
+    })
+  }
+
+
+
 }
+
+  

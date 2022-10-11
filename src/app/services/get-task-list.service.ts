@@ -10,7 +10,7 @@ export class GetTaskListService {
   constructor(private http:HttpClient) { }
 
   getTaskListService():Observable<any>{
-    return this.http.get('../../assets/mock-taskList.json')
+    return this.http.get('http://localhost:3000/tasks')
     }
 
 }

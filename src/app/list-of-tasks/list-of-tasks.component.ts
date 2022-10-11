@@ -8,9 +8,10 @@ import { Task } from '../interface';
 })
 export class ListOfTasksComponent implements OnInit {
   @Input() taskList:Task[]= [];
-  @Output() parentEventEmitter = new EventEmitter<Task>()
+  @Output() deleteTaskEmitter = new EventEmitter<Task>()
 
   task : Task = {
+    id : 0,
     name :"",
     date:'',
     important : false
@@ -25,7 +26,7 @@ export class ListOfTasksComponent implements OnInit {
   }
 
   notifyAPP(task : Task) {
-    this.parentEventEmitter.emit(task);
+    this.deleteTaskEmitter.emit(task);
   }
 
 }
