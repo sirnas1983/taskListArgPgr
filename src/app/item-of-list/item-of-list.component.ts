@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Task } from '../interface';
+import { PutTaskListServiceService } from '../services/put-task-list-service.service';
 
 @Component({
   selector: 'app-item-of-list',
@@ -13,7 +14,7 @@ export class ItemOfListComponent implements OnInit {
 
 overdue :boolean=false;
   
-constructor() { }
+constructor(private putTasks : PutTaskListServiceService) { }
 
 deleteTask(event:Event, task:Task){
   event.stopPropagation();
@@ -22,6 +23,13 @@ deleteTask(event:Event, task:Task){
 
   toggleImportant(){
     this.task.important=!this.task.important;
+    this.putTasks.putTaskListService(JSON.parse(JSON.stringify(this.task)),  this.task.id + '/').subscribe(response => {
+      console.log(response)
+    },
+    error => {alert(`${error.status} - Ha ocurrido un error en el servidor, ¡Porfavor intente mas tarde!`)}
+    )
+
+
   }
 
   ngOnInit(): void {

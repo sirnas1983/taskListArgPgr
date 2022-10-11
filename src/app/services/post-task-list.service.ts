@@ -5,12 +5,12 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class PutTaskListServiceService {
+export class PostTaskListService {
 
   constructor(private http : HttpClient) { }
 
-  putTaskListService(task: Task, url : string) : Observable<any> {
-    return this.http.put('http://localhost:3000/tasks/' + url, task )
+  postTaskListService(task: Task, url : string) : Observable<any> {
+    return this.http.post('http://localhost:3000/tasks/' + url, task )
   }
   
 }

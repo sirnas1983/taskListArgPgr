@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { GetTaskListService } from '../services/get-task-list.service';
 import { Task } from '../interface';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { PutTaskListServiceService } from '../services/put-task-list-service.service';
 import { DeleteTaskService } from '../services/delete-task.service';
+import { PostTaskListService } from '../services/post-task-list.service';
 
 @Component({
   selector: 'app-tasklist',
@@ -31,7 +31,7 @@ export class TasklistComponent implements OnInit {
 
   constructor(private getTasks : GetTaskListService, 
     private snackBar: MatSnackBar, 
-    private putTasks : PutTaskListServiceService,
+    private postTask : PostTaskListService,
     private deleteTaskService : DeleteTaskService) { 
 
     }
@@ -101,7 +101,7 @@ export class TasklistComponent implements OnInit {
         this.taskList = this.sortTaskList(this.taskList);
         this.notificacion();
         this.showFormMethod();
-        this.putTasks.putTaskListService(JSON.parse(JSON.stringify(task))).subscribe(response => {
+        this.postTask.postTaskListService(JSON.parse(JSON.stringify(task)), '').subscribe(response => {
           console.log(response)
         },
         error => {alert(`${error} - Ha ocurrido un error en el servidor, ¡Porfavor intente mas tarde!`)})
