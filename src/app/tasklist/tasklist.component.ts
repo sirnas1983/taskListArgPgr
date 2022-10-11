@@ -41,17 +41,22 @@ export class TasklistComponent implements OnInit {
     this.taskList = this.sortTaskList(taskList);
     console.log(this.taskList);
     this.notificacion();
-  });
-  }
+  },
+  error => {alert(`${error.status} - Ha ocurrido un error en el servidor, ¡Porfavor intente mas tarde!`)})
+}
 
   notificacion(){
     if (this.taskList.length>0) {
     let hoy = new Date();
     let dias = Math.floor((new Date(this.filterTaskList()[0].date).getTime() - hoy.getTime()) / 1000 / 60 / 60 / 24);
-    if (dias > 0){
-      this.openSnackBar(`Faltan ${dias} dias para su siguiente tarea!`);
-    } else if (this.taskList.length !== 0) {
-      this.openSnackBar('Hoy tiene tareas pendientes!');
+    if (dias >= 0){
+      if (dias === 0 && new Date(this.filterTaskList()[0].date).getDay() !== hoy.getDay()){
+        this.openSnackBar(`Falta 1 dia para su siguiente tarea!`);
+      } else if (new Date(this.filterTaskList()[0].date).getDay() === hoy.getDay()) {
+        this.openSnackBar('Hoy tiene tareas pendientes!');
+      } else {
+        this.openSnackBar(`Faltan ${dias} dias para su siguiente tarea!`);
+      }
     } else {
       this.openSnackBar('No tiene tareas pendientes');
     };
@@ -59,8 +64,7 @@ export class TasklistComponent implements OnInit {
 }
 
   toggle(event: Event) {
-      const listOfTasks = document.querySelectorAll("app-item-of-list .overdue");
-      listOfTasks.forEach(task => {task.classList.toggle("display")});
+      document.querySelectorAll("app-item-of-list .overdue").forEach(task => {task.classList.toggle("display")});
   }
 
   openSnackBar(message : string){
@@ -70,7 +74,7 @@ export class TasklistComponent implements OnInit {
 
   sortTaskList(taskList : Task[]) {
     return taskList.sort(
-      (taskA : Task, taskB : Task) =>  new Date(taskA.date).getTime() - new Date(taskB.date).getTime(),
+      (taskA : Task, taskB : Task) =>  new Date(taskA.date).getTime() - new Date(taskB.date).getTime()
     );
   }
 
@@ -85,7 +89,7 @@ export class TasklistComponent implements OnInit {
 
   addTask(name : string, date: string, important: boolean){
     let task : Task = {
-      id : this.taskList.length + 1,
+      id : Math.max(this.taskList.reduce((a, b) => Math.max(a, b.id), -Infinity)) + 1,
       name: name,
       date: date,
       important
@@ -99,8 +103,9 @@ export class TasklistComponent implements OnInit {
         this.showFormMethod();
         this.putTasks.putTaskListService(JSON.parse(JSON.stringify(task))).subscribe(response => {
           console.log(response)
-        })
-    } else {
+        },
+        error => {alert(`${error} - Ha ocurrido un error en el servidor, ¡Porfavor intente mas tarde!`)})
+      } else {
         this.openSnackBar("Debe ingresar una fecha")
     }
   }
@@ -108,13 +113,12 @@ export class TasklistComponent implements OnInit {
   deleteTask(task:Task){
     this.taskList = this.taskList.filter(item => item !== task);
     this.deleteTaskService.deleteTaskListService(task).subscribe(response => {
-    if (!response.ok){
       console.log(response);
-      this.notificacion()} 
-    })
+      this.notificacion(); 
+    },
+    error => {alert(`${error} - Ha ocurrido un error en el servidor, ¡Porfavor intente mas tarde!`)}
+    );    
   }
-
-
 
 }
 

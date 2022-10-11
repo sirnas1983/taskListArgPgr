@@ -5,6 +5,18 @@
       "name": "Reunion en colegio",
       "date": "2022-11-19 14:30",
       "important": false
+    },
+    {
+      "id": 5,
+      "name": "Bautismo de Bauti",
+      "date": "2022-12-18T20:00",
+      "important": true
+    },
+    {
+      "id": 8,
+      "name": "Encuentro Arg Pgr",
+      "date": "2022-10-23T06:00",
+      "important": true
     }
   ]
 }

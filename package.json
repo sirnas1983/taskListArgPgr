@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "json:server": "json-server --watch taskList.json",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
